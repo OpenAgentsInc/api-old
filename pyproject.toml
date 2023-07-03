@@ -6,7 +6,7 @@ authors = ["Christopher David <chris@arcadelabs.co>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10.9"
 flask = "^2.3.2"
 
 
