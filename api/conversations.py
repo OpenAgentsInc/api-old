@@ -32,7 +32,7 @@ def new_message():
     supabase.table('conversations').upsert({
         'id': conversation_id,
         'user_id': user_id,
-        'timestamp': datetime.datetime.now().isoformat()
+        # 'timestamp': datetime.datetime.now().isoformat()
     }).execute()
 
     # Create a new message
