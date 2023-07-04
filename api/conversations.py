@@ -28,6 +28,13 @@ def new_message():
     if conversation_id is None or message is None or user_id is None:
         return jsonify({"success": False, "error": "Error"}), 400
 
+    # Upsert this user into users table
+    supabase.table('users').upsert({
+        'id': user_id,
+        'name': 'User ' + user_id,
+        'npub': 'npub placeholder',
+    }).execute()
+
     # Set the conversation (which will create it if it doesn't exist)
     supabase.table('conversations').upsert({
         'id': conversation_id,
