@@ -29,19 +29,19 @@ def new_message():
         return jsonify({"success": False, "error": "Error"}), 400
 
     # Set the conversation (which will create it if it doesn't exist)
-    supabase.from_('conversations').upsert({
+    supabase.table('conversations').upsert({
         'id': conversation_id,
         'user_id': user_id,
         'timestamp': datetime.datetime.now()
-    })
+    }).execute()
 
     # Create a new message
-    supabase.from_('messages').insert({
+    supabase.table('messages').insert({
         'conversation_id': conversation_id,
         'sender': 'user',
         'message': message,
         'user_id': user_id,
         'timestamp': datetime.datetime.now()
-    })
+    }).execute()
 
     return jsonify({"success": True, "response": "sending " + message, "conversationId": conversation_id}), 200
