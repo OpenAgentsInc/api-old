@@ -44,4 +44,4 @@ def new_message():
         'timestamp': datetime.datetime.now()
     })
 
-    return jsonify({"success": True, "response": "sending " + message}), 200
+    return jsonify({"success": True, "response": "sending " + message, "conversationId": conversation_id}), 200
