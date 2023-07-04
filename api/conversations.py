@@ -1,6 +1,7 @@
 """Handle all the conversation stuff"""
 import datetime
 import os
+import uuid
 
 from dotenv import load_dotenv
 from flask import jsonify, request
@@ -44,6 +45,7 @@ def new_message():
 
     # Create a new message
     supabase.table('messages').insert({
+        'id': uuid.uuid4(),
         'conversation_id': conversation_id,
         'sender': 'user',
         'message': message,
