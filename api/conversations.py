@@ -32,7 +32,7 @@ def new_message():
     supabase.table('conversations').upsert({
         'id': conversation_id,
         'user_id': user_id,
-        'timestamp': datetime.datetime.now()
+        'timestamp': datetime.datetime.now().isoformat()
     }).execute()
 
     # Create a new message
@@ -41,7 +41,7 @@ def new_message():
         'sender': 'user',
         'message': message,
         'user_id': user_id,
-        'timestamp': datetime.datetime.now()
+        'timestamp': datetime.datetime.now().isoformat()
     }).execute()
 
     return jsonify({"success": True, "response": "sending " + message, "conversationId": conversation_id}), 200
