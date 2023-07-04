@@ -22,8 +22,7 @@ def get_conversations(npub):
         '*').filter('user_npub', eq=npub).execute()
 
     for conversation in conversations.data:
-        messages = supabase.table('messages').select('*').filter('conversation_id',
-                                                                 eq=conversation['id']).order('timestamp', ascending=False).limit(1).execute()
+        messages = supabase.table('messages').select('*').filter('conversation_id', eq=conversation['id']).order('timestamp', ascending=False).limit(1).execute()
         conversation['latest_message'] = messages.data[0]
 
     return jsonify({"success": True, "conversations": conversations.data}), 200
