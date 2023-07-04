@@ -45,7 +45,7 @@ def new_message():
 
     # Create a new message
     supabase.table('messages').insert({
-        'id': uuid.uuid4(),
+        'id': uuid.uuid4().hex,
         'conversation_id': conversation_id,
         'sender': 'user',
         'message': message,
