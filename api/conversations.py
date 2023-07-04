@@ -24,23 +24,21 @@ def new_message():
     conversation_id = data.get('conversationId')
     message = data.get('message')
     npub = data.get('npub')
-    user_id = data.get('userId')
 
     # Check that all required fields are present
-    if conversation_id is None or message is None or user_id is None or npub is None:
+    if conversation_id is None or message is None or npub is None:
         return jsonify({"success": False, "error": "Error"}), 400
 
     # Upsert this user into users table
     supabase.table('users').upsert({
-        'id': user_id,
-        'name': 'User ' + user_id,
+        'name': 'User ' + npub,
         'npub': npub,
     }).execute()
 
     # Set the conversation (which will create it if it doesn't exist)
     supabase.table('conversations').upsert({
         'id': conversation_id,
-        'user_id': user_id,
+        'user_npub': npub,
         # 'timestamp': datetime.datetime.now().isoformat()
     }).execute()
 
@@ -50,7 +48,7 @@ def new_message():
         'conversation_id': conversation_id,
         'sender': 'user',
         'message': message,
-        'user_id': user_id,
+        'user_npub': npub,
         'timestamp': datetime.datetime.now().isoformat()
     }).execute()
 
