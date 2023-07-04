@@ -38,9 +38,9 @@ def new_message():
     # Create a new message
     supabase.from_('messages').insert({
         'conversation_id': conversation_id,
+        'sender': 'user',
         'message': message,
         'user_id': user_id,
-        'from': 'user',
         'timestamp': datetime.datetime.now()
     })
 
