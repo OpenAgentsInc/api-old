@@ -1,15 +1,14 @@
 -- Users table
 create table users (
-  id uuid primary key,
-  name text,
-  npub text
+  npub text primary key,
+  name text
 );
 
 -- Conversations table
 create table conversations (
   id uuid primary key,
   initial_message text,
-  user_id uuid references users(id)
+  user_npub text references users(npub)
 );
 
 -- Messages table
@@ -18,6 +17,6 @@ create table messages (
   conversation_id uuid references conversations(id),
   sender text,
   message text,
-  user_id uuid references users(id),
+  user_npub text references users(npub),
   timestamp timestamp
 );
