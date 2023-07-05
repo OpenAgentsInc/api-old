@@ -84,8 +84,9 @@ def new_message():
     # Loop through messages, adding each to a string
     convo_history = ''
     for fbmessage in last_messages.data:
-        convo_history += fbmessage.to_dict()['from'] + \
-            ': ' + fbmessage.to_dict()['message'] + '\n\n'
+        print(fbmessage)
+        convo_history += fbmessage['from'] + \
+            ': ' + fbmessage['message'] + '\n\n'
 
     # If convo_history is greater than 1000 characters, truncate it and append "(...truncated)"
     if len(convo_history) > 1000:
