@@ -1,6 +1,6 @@
 """App entry point"""
 from flask import Flask, jsonify, request
-from api.conversations import get_conversations, new_message
+from api.conversations import get_conversation, get_conversations, new_message
 
 application = Flask(__name__)
 
@@ -25,3 +25,8 @@ def message():
 def go_get_conversations(npub):
     """Fetch conversations for a user npub"""
     return get_conversations(npub)
+
+
+@application.route('/conversation/<conversationId>', methods=['GET'])
+def go_get_conversation(conversationId):
+    return get_conversation(conversationId)

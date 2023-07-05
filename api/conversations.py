@@ -16,6 +16,13 @@ key: str = os.getenv("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
 
 
+def get_conversation(conversation_id):
+    """Return messages for a conversation"""
+    messages = supabase.table('messages').select(
+        '*').eq('conversation_id', conversation_id).limit(50)  # .order('timestamp', ascending=False)
+    return jsonify({"success": True, "messages": messages.data}), 200
+
+
 def get_conversations(npub):
     """Return conversations and lastmessage for an npub"""
 
