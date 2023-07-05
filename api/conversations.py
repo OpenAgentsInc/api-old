@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 from flask import jsonify, request
 from supabase import create_client, Client
 
+from llms.openai_helpers import complete
+
 
 load_dotenv()
 
@@ -95,6 +97,9 @@ def new_message():
     prompt = 'You are Faerie, a magical faerie having a conversation with a user. You know a lot of things and are very good at producing code. Answer factual questions concisely. Only give the next answer of Faerie, nothing else, but it can be very long - like multiple paragraphs. \n\n Conversation History:\n' + convo_history + '\n\n faerie: '
 
     completion_model = 'text-davinci-003'
+    tokens_response = 2000
+
+    response = complete(prompt, tokens_response, completion_model)
 
     print(prompt)
 
@@ -103,9 +108,9 @@ def new_message():
         'id': uuid.uuid4().hex,
         'conversation_id': conversation_id,
         'sender': 'faerie',
-        'message': "A demo response.",
+        'message': response,
         'user_npub': npub,
         'timestamp': datetime.datetime.now().isoformat()
     }).execute()
 
-    return jsonify({"success": True, "response": "sending " + message, "conversationId": conversation_id}), 200
+    return jsonify({"success": True, "response": response, "conversationId": conversation_id}), 200
