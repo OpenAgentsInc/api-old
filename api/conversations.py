@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from flask import jsonify, request
 from supabase import create_client, Client
 
-from llms.openai_helpers import complete
+from .llms.openai_helpers import complete
 
 
 load_dotenv()
