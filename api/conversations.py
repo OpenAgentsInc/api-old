@@ -85,7 +85,7 @@ def new_message():
     convo_history = ''
     for fbmessage in last_messages.data:
         print(fbmessage)
-        convo_history += fbmessage['from'] + \
+        convo_history += fbmessage['sender'] + \
             ': ' + fbmessage['message'] + '\n\n'
 
     # If convo_history is greater than 1000 characters, truncate it and append "(...truncated)"
