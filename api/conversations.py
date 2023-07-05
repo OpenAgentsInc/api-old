@@ -92,7 +92,7 @@ def new_message():
     if len(convo_history) > 1000:
         convo_history = convo_history[:1000] + "(...truncated)"
 
-    prompt = 'You are Faerie, a magical faerie having a conversation with a user. You know a lot of things and are very good at producing code. Answer factual questions concisely. Only give the next answer of Faerie, nothing else, but it can be very long - like multiple paragraphs. \n\n Conversation History:\n' + convo_history + '\n\nuser: ' + message + '\n\n faerie: '
+    prompt = 'You are Faerie, a magical faerie having a conversation with a user. You know a lot of things and are very good at producing code. Answer factual questions concisely. Only give the next answer of Faerie, nothing else, but it can be very long - like multiple paragraphs. \n\n Conversation History:\n' + convo_history + '\n\n faerie: '
 
     completion_model = 'text-davinci-003'
 
