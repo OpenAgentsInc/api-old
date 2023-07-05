@@ -98,4 +98,14 @@ def new_message():
 
     print(prompt)
 
+    # Create a new message
+    supabase.table('messages').insert({
+        'id': uuid.uuid4().hex,
+        'conversation_id': conversation_id,
+        'sender': 'faerie',
+        'message': "A demo response.",
+        'user_npub': npub,
+        'timestamp': datetime.datetime.now().isoformat()
+    }).execute()
+
     return jsonify({"success": True, "response": "sending " + message, "conversationId": conversation_id}), 200
