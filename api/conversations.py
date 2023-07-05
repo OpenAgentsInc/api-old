@@ -19,7 +19,7 @@ supabase: Client = create_client(url, key)
 def get_conversation(conversation_id):
     """Return messages for a conversation"""
     messages = supabase.table('messages').select(
-        '*').eq('conversation_id', conversation_id).limit(50)  # .order('timestamp', ascending=False)
+        '*').eq('conversation_id', conversation_id).execute()  # .order('timestamp', ascending=False) # .limit(50)
     return jsonify({"success": True, "messages": messages.data}), 200
 
 
