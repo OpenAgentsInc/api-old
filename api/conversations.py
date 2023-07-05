@@ -79,7 +79,7 @@ def new_message():
 
     # Get the last 10 messages from the conversation
     last_messages = supabase.table('messages').select("*").eq(
-        'conversation_id', conversation_id).order('timestamp', ascending=False).execute()
+        'conversation_id', conversation_id).execute()  # .order('timestamp', ascending=False)
 
     # Loop through messages, adding each to a string
     convo_history = ''
