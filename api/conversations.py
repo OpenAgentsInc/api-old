@@ -21,7 +21,7 @@ supabase: Client = create_client(url, key)
 def get_conversation(conversation_id):
     """Return messages for a conversation"""
     messages = supabase.table('messages').select(
-        '*').eq('conversation_id', conversation_id).order('timestamp', 'asc').execute()  # .order('timestamp', ascending=False) # .limit(50)
+        '*').eq('conversation_id', conversation_id).order('timestamp.desc').execute()  # .order('timestamp', ascending=False) # .limit(50)
     return jsonify({"success": True, "messages": messages.data}), 200
 
 
@@ -37,7 +37,7 @@ def get_conversations(npub):
 
     for conversation in conversations.data:
         messages = supabase.table('messages').select('*').eq('conversation_id',
-                                                             conversation['id']).order('timestamp', 'asc').limit(1).execute()  #
+                                                             conversation['id']).order('timestamp.desc').limit(1).execute()  #
         conversation['latest_message'] = messages.data[0]
 
     return jsonify({"success": True, "conversations": conversations.data}), 200
