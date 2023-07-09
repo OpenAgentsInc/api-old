@@ -17,6 +17,7 @@ EMBED_DIMS = 1536
 MODEL_EMBED = 'text-embedding-ada-002'
 MODEL_COMPLETION = 'text-davinci-003'
 MODEL_COMPLETION_CODE = 'code-davinci-002'
+MODEL_CHAT = 'gpt-3.5-turbo'
 
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -68,3 +69,32 @@ def complete(prompt, tokens_response=1024, model=MODEL_COMPLETION):
         f"Completion - Tokens used: {total_tokens} (prompt: {prompt_tokens}, completion: {completion_tokens})")
 
     return results['choices'][0]['text'].strip()
+
+
+def chat_complete(messages, tokens_response=60):
+    """
+    Complete a conversation using the OpenAI Chat Completions API.
+
+    :param messages: List of message dicts for the conversation.
+    :param tokens_response: The maximum number of tokens for the response message.
+    :returns: The assistant's response message.
+    :raises Exception: If all attempts to call the API fail.
+    """
+    retries = 3
+    for i in range(retries):
+        try:
+            response = openai.ChatCompletion.create(
+                model=MODEL_CHAT,  # Update to the correct model name
+                messages=messages,
+                max_tokens=tokens_response,
+                n=1,
+                temperature=0.6,  # You might want to adjust this
+            )
+            return response['choices'][0]['message']['content']
+        except Exception as e:
+            if i < retries - 1:  # i is zero indexed
+                time.sleep(0.2)
+                continue
+            else:
+                raise e
+    raise Exception("All attempts to call the OpenAI API have failed.")
