@@ -82,7 +82,7 @@ def new_message():
 
     # Fetch the conversation from the database
     result = supabase.table('conversations').select().eq(
-        'id', conversation_id).single()
+        'id', conversation_id).execute()
     if result.data is None:
         return jsonify({"error": "Failed to fetch conversation"}), 404
 
@@ -106,7 +106,7 @@ def new_message():
 
     # Update the conversation in the database
     result = supabase.table('conversations').update(
-        {"messages": messages}).match({'id': conversation_id})
+        {"messages": messages}).match({'id': conversation_id}).execute()
     if result.data is None:
         return jsonify({"error": "Failed to update conversation"}), 500
 
