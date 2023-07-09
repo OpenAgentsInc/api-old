@@ -88,8 +88,9 @@ def new_message():
     convo_history = []
     for fbmessage in last_messages.data:
         print(fbmessage)
+        role = 'assistant' if fbmessage['sender'] == 'faerie' else fbmessage['sender']
         convo_history.append({
-            "role": fbmessage['sender'],
+            "role": role,
             "content": fbmessage['message']
         })
 
