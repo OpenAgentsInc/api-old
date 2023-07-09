@@ -86,8 +86,21 @@ def new_message():
     if result.data is None:
         return jsonify({"error": "Failed to fetch conversation"}), 404
 
+    print(result)
+    print("-----")
+    print(result.data)
+
+    # Extract the conversation data
+    conversation_data = result.data[0]
+
+    print("-----")
+    print(conversation_data)
+
     # Extract the conversation messages
-    messages = result.data.get('messages', [])
+    messages = conversation_data.get('messages', [])
+
+    print("-----")
+    print(messages)
 
     # Append the user's message to the messages
     messages.append({
