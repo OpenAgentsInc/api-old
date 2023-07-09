@@ -80,48 +80,51 @@ def new_message():
         'timestamp': datetime.datetime.now().isoformat()
     }).execute()
 
-    # Fetch the conversation from the database
-    result = supabase.table('conversations').select().eq(
-        'id', conversation_id).execute()
-    if result.data is None:
-        return jsonify({"error": "Failed to fetch conversation"}), 404
+    # Get the last 10 messages from the conversation
+    last_messages = supabase.table('messages').select("*").eq(
+        'conversation_id', conversation_id).execute()  # .order('timestamp', ascending=False)
 
-    print(result)
-    print("-----")
-    print(result.data)
-
-    # Extract the conversation data
-    conversation_data = result.data[0]
-
-    print("-----")
-    print(conversation_data)
-
-    # Extract the conversation messages
-    messages = conversation_data.get('messages', [])
+    # Loop through messages, adding each to a list of message dictionaries
+    convo_history = []
+    for fbmessage in last_messages.data:
+        print(fbmessage)
+        convo_history.append({
+            "role": fbmessage['sender'],
+            "content": fbmessage['message']
+        })
 
     print("-----")
-    print(messages)
+    print(convo_history)
 
     # Append the user's message to the messages
-    messages.append({
-        "role": "user",
-        "content": user_message,
-    })
+    # messages.append({
+    #     "role": "user",
+    #     "content": user_message,
+    # })
 
-    # Generate the assistant's response using chat_complete
-    assistant_message = chat_complete(messages)
+    # # Generate the assistant's response using chat_complete
+    # assistant_message = chat_complete(messages)
+
+    response = chat_complete(convo_history)
+
+    print("-----")
+    print(response)
+
+    # Create a new message
+    supabase.table('messages').insert({
+        'id': uuid.uuid4().hex,
+        'conversation_id': conversation_id,
+        'sender': 'faerie',
+        'message': response,
+        'user_npub': npub,
+        'timestamp': datetime.datetime.now().isoformat()
+    }).execute()
 
     # Append the assistant's response to the messages
-    messages.append({
-        "role": "assistant",
-        "content": assistant_message,
-    })
-
-    # Update the conversation in the database
-    result = supabase.table('conversations').update(
-        {"messages": messages}).match({'id': conversation_id}).execute()
-    if result.data is None:
-        return jsonify({"error": "Failed to update conversation"}), 500
+    # messages.append({
+    #     "role": "assistant",
+    #     "content": assistant_message,
+    # })
 
     # Return the assistant's response
     return jsonify({
@@ -129,7 +132,7 @@ def new_message():
         "conversationId": conversation_id,
         # "created": datetime.now().isoformat(),
         "role": "assistant",
-        "response": assistant_message,
+        "response": response,
     }), 201
 
     # # Get the last 10 messages from the conversation
