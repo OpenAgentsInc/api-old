@@ -71,7 +71,7 @@ def complete(prompt, tokens_response=1024, model=MODEL_COMPLETION):
     return results['choices'][0]['text'].strip()
 
 
-def chat_complete(messages, tokens_response=60):
+def chat_complete(messages, tokens_response=1000):
     """
     Complete a conversation using the OpenAI Chat Completions API.
 
