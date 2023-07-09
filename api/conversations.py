@@ -83,8 +83,8 @@ def new_message():
     # Fetch the conversation from the database
     result = supabase.table('conversations').select().eq(
         'id', conversation_id).single()
-    if result.error:
-        return jsonify({"error": str(result.error)}), 404
+    if result.data is None:
+        return jsonify({"error": "Failed to fetch conversation"}), 404
 
     # Extract the conversation messages
     messages = result.data.get('messages', [])
@@ -108,7 +108,7 @@ def new_message():
     result = supabase.table('conversations').update(
         {"messages": messages}).match({'id': conversation_id})
     if result.data is None:
-        return jsonify({"error": str(result.error)}), 500
+        return jsonify({"error": "Failed to update conversation"}), 500
 
     # Return the assistant's response
     return jsonify({
