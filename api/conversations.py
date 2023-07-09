@@ -107,7 +107,7 @@ def new_message():
     # Update the conversation in the database
     result = supabase.table('conversations').update(
         {"messages": messages}).match({'id': conversation_id})
-    if result.error:
+    if result.data is None:
         return jsonify({"error": str(result.error)}), 500
 
     # Return the assistant's response
