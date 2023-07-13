@@ -36,6 +36,7 @@ def go_get_conversation(conversationId):
 @application.route('/recording', methods=['POST'])
 def upload_recording():
     print("here so lets try")
+    print(request.files)
 
     if 'audio' not in request.files:
         print("No audio thing")
