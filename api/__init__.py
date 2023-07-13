@@ -1,6 +1,7 @@
 """App entry point"""
 import os
 import openai
+import tempfile
 
 from flask import Flask, jsonify, request
 from api.conversations import get_conversation, get_conversations, new_message
@@ -52,14 +53,24 @@ def upload_recording():
 
     if audio:
         # Save audio file to uploads folder
-        filename = os.path.join('uploads', audio.filename)
+        # filename = os.path.join('uploads', audio.filename)
+        tmp_folder = tempfile.gettempdir()
+        filename = os.path.join(tmp_folder, audio.filename)
+        audio.save(filename)
+
         print("Saved to:", filename)
 
-        audio_file = open(filename, 'rb')
+      # Open saved temp file
+        with open(filename, 'rb') as audio_file:
+
+            # Transcribe audio
+            transcript = openai.Audio.transcribe("whisper-1", audio_file)
+
+        # audio_file = open(filename, 'rb')
         print("Opened audio file")
 
         # Transcribe audio with Whisper
-        transcript = openai.Audio.transcribe("whisper-1", audio_file)
+        # transcript = openai.Audio.transcribe("whisper-1", audio_file)
 
         # Return transcript text
         return jsonify({'transcript': transcript, 'success': True}), 201
