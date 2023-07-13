@@ -51,7 +51,13 @@ def upload_recording():
     if audio:
         # Save audio file to uploads folder
         filename = os.path.join('uploads', audio.filename)
-        print("saved maybe", filename)
-        # audio.save(filename)
+        print("Saved to:", filename)
 
-        return jsonify({'success': True}), 201
+        audio_file = open(filename, 'rb')
+        print("Opened audio file")
+
+        # Transcribe audio with Whisper
+        transcript = openai.Audio.transcribe("whisper-1", audio_file)
+
+        # Return transcript text
+        return jsonify({'transcript': transcript, 'success': True}), 201
