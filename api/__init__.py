@@ -1,5 +1,7 @@
 """App entry point"""
 import os
+import openai
+
 from flask import Flask, jsonify, request
 from api.conversations import get_conversation, get_conversations, new_message
 
