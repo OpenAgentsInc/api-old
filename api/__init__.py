@@ -62,12 +62,12 @@ def upload_recording():
 
       # Open saved temp file
         with open(filename, 'rb') as audio_file:
-
+            print("Opened audio file. Transcripting...")
             # Transcribe audio
             transcript = openai.Audio.transcribe("whisper-1", audio_file)
+            print(transcript)
 
         # audio_file = open(filename, 'rb')
-        print("Opened audio file")
 
         # Transcribe audio with Whisper
         # transcript = openai.Audio.transcribe("whisper-1", audio_file)
