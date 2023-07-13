@@ -51,6 +51,7 @@ def upload_recording():
     if audio:
         # Save audio file to uploads folder
         filename = os.path.join('uploads', audio.filename)
-        audio.save(filename)
+        print("saved maybe", filename)
+        # audio.save(filename)
 
         return jsonify({'success': True}), 201
