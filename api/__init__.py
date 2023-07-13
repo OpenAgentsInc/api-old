@@ -35,12 +35,16 @@ def go_get_conversation(conversationId):
 
 @application.route('/recording', methods=['POST'])
 def upload_recording():
+    print("here so lets try")
+
     if 'audio' not in request.files:
+        print("No audio thing")
         return jsonify({'error': 'No audio file provided'}), 400
 
     audio = request.files['audio']
 
     if audio.filename == '':
+        print("no filename maybe")
         return jsonify({'error': 'No audio file provided'}), 400
 
     if audio:
