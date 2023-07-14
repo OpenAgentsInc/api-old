@@ -1,3 +1,5 @@
+# From https://platform.openai.com/docs/guides/gpt/function-calling
+
 import openai
 import json
 
@@ -76,6 +78,3 @@ def run_conversation():
         )  # get a new response from GPT where it can see the function response
         print(second_response)
         return second_response
-
-
-# print(run_conversation())
