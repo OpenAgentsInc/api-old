@@ -1,10 +1,11 @@
 """App entry point"""
 import os
-import openai
 import tempfile
+import openai
 
 from flask import Flask, jsonify, request
 from api.conversations import get_conversation, get_conversations, new_message
+from api.llms.openai_functions import run_conversation
 
 application = Flask(__name__)
 
@@ -13,6 +14,13 @@ application = Flask(__name__)
 def index():
     """Placeholder route"""
     return 'Hello, World!'
+
+
+# Create a route to test an OpenAI function call
+@application.route('/test-function')
+def test_function():
+    """Create test call to OpenAI function"""
+    return run_conversation()
 
 
 @application.route('/message', methods=['POST'])
