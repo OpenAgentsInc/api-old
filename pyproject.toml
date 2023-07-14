@@ -15,6 +15,7 @@ openai = "^0.27.8"
 
 [tool.poetry.scripts]
 testum = "api.test:test"
+func = "api.llms.openai_functions:run_conversation"
 
 [build-system]
 requires = ["poetry-core"]
